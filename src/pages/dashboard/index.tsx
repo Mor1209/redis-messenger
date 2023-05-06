@@ -27,14 +27,28 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
+  const session = useSession();
 
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
 
+  console.log(session);
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
+      <a
+        onClick={() =>
+          window.open(
+            "http://localhost:3000/dashboard",
+            "_blank",
+            "location=no,height=570,width=520,scrollbars=yes,status=no"
+          )
+        }
+      >
+        Share Page
+      </a>
       <p className="text-center text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {secretMessage && <span> - {secretMessage}</span>}
@@ -45,6 +59,7 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
+      <button onClick={() => console.log(session)}>session console log</button>
     </div>
   );
 };
