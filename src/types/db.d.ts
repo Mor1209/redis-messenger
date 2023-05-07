@@ -1,6 +1,4 @@
-interface User {
-  name?: string;
-  email?: string;
-  image?: string;
-  id: string;
-}
+import type { z } from "zod";
+import type { UserSchema } from "./schema/db";
+
+export type User = z.infer<typeof UserSchema>;

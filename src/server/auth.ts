@@ -7,6 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { env } from "~/env.mjs";
 import { fetchRedis } from "~/utils/redis";
 import { v4 as uuidv4 } from "uuid";
+import type { User } from "~/types/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -51,6 +52,7 @@ export const authOptions: NextAuthOptions = {
       return {
         userId: dbUser.id,
         name: dbUser.name,
+        username: dbUser.username,
         email: dbUser.email,
         picture: dbUser.image,
       };
@@ -61,6 +63,7 @@ export const authOptions: NextAuthOptions = {
         ...session.user,
         id: token.userId,
         name: token.name,
+        username: token.username,
         email: token.email,
         image: token.picture,
       },

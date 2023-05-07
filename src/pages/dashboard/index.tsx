@@ -2,10 +2,13 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import EditUsernameModal from "~/components/modal/EditUsernameModal";
 
 import { api } from "~/utils/api";
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
+  const { data } = useSession();
+
   return (
     <>
       <Head>
@@ -15,15 +18,15 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1>Home</h1>
-          <AuthShowcase />
+          {/* <AuthShowcase /> */}
+          {!data?.user.username && <EditUsernameModal />}
         </div>
       </main>
     </>
   );
 };
 
-export default Home;
+export default Dashboard;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
@@ -38,17 +41,6 @@ const AuthShowcase: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <a
-        onClick={() =>
-          window.open(
-            "http://localhost:3000/dashboard",
-            "_blank",
-            "location=no,height=570,width=520,scrollbars=yes,status=no"
-          )
-        }
-      >
-        Share Page
-      </a>
       <p className="text-center text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
         {secretMessage && <span> - {secretMessage}</span>}
