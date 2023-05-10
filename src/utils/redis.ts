@@ -2,7 +2,7 @@ import { env } from "~/env.mjs";
 const upstashRedisRestUrl = env.UPSTASH_REDIS_REST_URL;
 const authToken = env.UPSTASH_REDIS_REST_TOKEN;
 
-type Command = "zrange" | "sismember" | "get" | "smembers";
+type Command = "zrange" | "sismember" | "get" | "smembers" | "scan" | "sscan";
 
 /* 
 Function returns result for redis data fetch,
@@ -25,6 +25,8 @@ export async function fetchRedis(
     throw new Error(`Error executing Redis command: ${response.statusText}`);
   }
 
-  const data = (await response.json()) as { result: string | null };
+  const data = (await response.json()) as {
+    result: [number, string[]] | string | null;
+  };
   return data.result;
 }
